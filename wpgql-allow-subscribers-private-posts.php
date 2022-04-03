@@ -27,7 +27,6 @@ add_filter( 'graphql_connection_query_args', function( $query_args, $connection_
 }, 10, 2 );
 
 /** Filter the Post Model to make all private posts accessible to subscribers (and other logged in users.)
- * EG - The User Model prevents unpublished users from being seen by non-authenticated WPGraphQL requests. To lift this restriction, we can use the following filter
  * WPGraphQL has a Model Layer that centralizes the logic to determine if any given object, or fields of the object, should be allowed to be seen by the user requesting data
  */
 add_filter( 'graphql_object_visibility', function( $visibility, $model_name, $data, $owner, $current_user ) {
@@ -41,29 +40,11 @@ add_filter( 'graphql_object_visibility', function( $visibility, $model_name, $da
   return $visibility;
 }, 10, 5 );
 
-//double check what is happening here...
+//double check what is happening here.
+// error caused by adding argument to filter
+// , $resolver
 add_filter( 'graphql_connection_should_execute', function(
   $should_execute
-  // , $resolver
-  /* $resolver error == {
-{
-    "debugMessage": "Too few arguments to function {closure}(), 1 passed in /Users/colinrowntree/Local Sites/colinrtech20210705/app/public/wp-includes/class-wp-hook.php on line 309 and exactly 2 expected",
-    "message": "Internal server error",
-    "extensions": {
-        "category": "internal"
-    },
-    "locations": [
-        {
-            "line": 3,
-            "column": 10
-        }
-    ],
-    "path": [
-        "posts"
-    ],
-    "trace": [...]
-}
-  }*/
 ){
   // $current_user = wp_get_current_user();
   $userLoggedIn = is_user_logged_in();
@@ -74,3 +55,22 @@ add_filter( 'graphql_connection_should_execute', function(
     return $should_execute;
   }
 } );
+/* $resolver error == {
+{
+  "debugMessage": "Too few arguments to function {closure}(), 1 passed in /Users/colinrowntree/Local Sites/colinrtech20210705/app/public/wp-includes/class-wp-hook.php on line 309 and exactly 2 expected",
+  "message": "Internal server error",
+  "extensions": {
+      "category": "internal"
+  },
+  "locations": [
+      {
+          "line": 3,
+          "column": 10
+      }
+  ],
+  "path": [
+      "posts"
+  ],
+  "trace": [...]
+}
+}*/
