@@ -1,5 +1,40 @@
 <?php 
 
+  // $userLoggedIn = is_user_logged_in();
+  
+  // graphql_debug([
+  //     "graphql_connection_should_execute"=>"invoved", 
+  //     "should_execute"=> $should_execute,
+  //     "resolver"=> $resolver,
+  //     "resolverClass"=> get_class($resolver),
+  //     "userLoggedIn"=> $userLoggedIn
+  //     "current_user"=> $current_user,
+  //     // "current_user"=> $current_user->caps['custom-role']
+  //   ]);
+  // return $should_execute;
+  // if(!$userLoggedIn){
+  // } else {
+
+  //   if($connection_resolver instanceof \WPGraphQL\Data\Connection\PostObjectConnectionResolver
+  //   // && $current_user
+  //   ) {
+  //     //
+  //     graphql_debug([
+  //       "graphql_connection_should_execute"=>"invoved", 
+  //       "should_execute"=> $should_execute,
+  //       "resolver"=> $resolver,
+  //       "resolverClass"=> get_class($resolver),
+  //       "current_user"=> $current_user,
+  //       // "current_user"=> $current_user->caps['custom-role']
+  //     ]);
+
+  //     return true;
+  //   } else {
+  //     return $should_execute;
+  //   }
+  // }
+
+
 /** 
  * Iintriguing 
  * wpgql 
