@@ -5,7 +5,8 @@
  * Version: 0.0.1-alpha
  * Author:
  * Author URI:
- * Description: This is an example plugin for extending WP-GraphQL wpgql-allow-subscribers-private-posts -don't forget! graphql_debug(["customhookname"=>"invoked"]); and wp_send_json()
+ * Description: This is an example plugin for extending WP-GraphQL wpgql-allow-subscribers-private-posts 
+ * - don't forget! graphql_debug(["customhookname"=>"invoked"]); and wp_send_json()
  */
 /**
  * WP_QUERY sets an query argument of 'post_status' => 'public' for the underlying wpgraphql WP_User_Query, To adjust this, we can customise the `graphql_connection_query_args
@@ -27,7 +28,8 @@ add_filter( 'graphql_connection_query_args', function( $query_args, $connection_
 }, 10, 2 );
 
 /** Filter the Post Model to make all private posts queryable to subscribers (and other logged in users.)
- * WPGraphQL has a Model Layer that centralizes the logic to determine if any given object, or fields of the object, should be allowed to be seen by the user requesting data
+ * "WPGraphQL has a Model Layer that centralizes the logic to determine if any given object, or fields of the object, should be allowed to be seen by the user requesting data"
+ * see - https://www.wpgraphql.com/2020/12/11/allowing-wpgraphql-to-show-unpublished-authors-in-user-queries/
  */
 add_filter( 'graphql_object_visibility', function( $visibility, $model_name, $data, $owner, $current_user ) {
   // only apply our adjustments to the PostObject Model  beware! potential edgecases for CPT.
