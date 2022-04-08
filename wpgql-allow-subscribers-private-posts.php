@@ -15,8 +15,9 @@ add_filter( 'graphql_connection_query_args', function( $query_args, $connection_
     $connection_resolver instanceof \WPGraphQL\Data\Connection\PostObjectConnectionResolver ) {
       if( //ensure the wp query is querying post_status->private
         $query_args["graphql_args"]["where"]["status"]==="private" 
-        // only logged in users
+        // only logged in users, 
         && is_user_logged_in()
+        // && ccould specify, wp_get_current_user()->caps['subscriber']
         ){
         // update the WP_Query args
         $query_args['post_status'] = ["private"];
@@ -29,9 +30,9 @@ add_filter( 'graphql_connection_query_args', function( $query_args, $connection_
  * WPGraphQL has a Model Layer that centralizes the logic to determine if any given object, or fields of the object, should be allowed to be seen by the user requesting data
  */
 add_filter( 'graphql_object_visibility', function( $visibility, $model_name, $data, $owner, $current_user ) {
-  // only apply our adjustments to the PostObject Model  beware! - more precise.
+  // only apply our adjustments to the PostObject Model  beware! potential edgecases for CPT.
   if ( 'PostObject' === $model_name ) {
-    if(is_user_logged_in() && $data->post_status === "private" && $data->post_type==="post"){
+    if( $current_user->caps['subscriber'] && $data->post_status === "private" && $data->post_type==="post") {
       $visibility = 'public';
     }
   }
@@ -42,10 +43,10 @@ add_filter( 'graphql_object_visibility', function( $visibility, $model_name, $da
 add_filter( 'graphql_connection_should_execute', function($should_execute, $resolver){
   if ($resolver instanceof \WPGraphQL\Data\Connection\PostObjectConnectionResolver && is_user_logged_in()){
     $current_user = wp_get_current_user();
-    // allow subscribers to execute reading 'private' posts 
+    // allow subscribers to execute reading 'private' posts
     if($current_user->caps['subscriber']){
       return true;
-      // (beware! this could/would overule other post_type resolver behaviour where these conditionals are met)
+      // (beware! this could/would overule other post_type resolver behaviour where logged_in && 'subscriber' conditionals are met)
     }
   } 
   return $should_execute;
