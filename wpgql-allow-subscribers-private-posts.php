@@ -145,19 +145,12 @@ function graphql_register_extra_capability_on_user_mutation( $user_id, $input, $
               if(isset($user->caps['early_adopter_user'])){
                 $user->remove_cap("early_adopter_user");
               } else {
-                //  $user->add_cap("read_private_portfolio");
+                //  $user->add_cap("early_adopter_user");
               }
             break;
           default:
             break;
       }
-
-      // if(
-      //   isset($user->caps['read_private_portfolio'])
-      // ) {
-      //   $user->remove_cap("read_private_portfolio");
-      // } else{        
-      // }
       
       // Will return false if the previous value is the same as $new_value.
       // ...careful here, wpUser data can be input
