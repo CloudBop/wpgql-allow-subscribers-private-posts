@@ -142,6 +142,11 @@ function graphql_register_extra_capability_on_user_mutation( $user_id, $input, $
               } else {
                  $user->add_cap("read_private_portfolio");
               }
+              if(isset($user->caps['early_adopter_user'])){
+                $user->remove_cap("early_adopter_user");
+              } else {
+                //  $user->add_cap("read_private_portfolio");
+              }
             break;
           default:
             break;
